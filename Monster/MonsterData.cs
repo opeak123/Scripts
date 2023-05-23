@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public class MonsterData
 {
     private int HP { get; set; }    // Ã¼·Â

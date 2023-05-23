@@ -15,6 +15,10 @@ public class MonsterManager : MonoBehaviour
     //Dictionary
     private Dictionary<MonsterType, MonsterData> monsterDic = new Dictionary<MonsterType, MonsterData>();
     
+    private MonsterData goblinData = new MonsterData();
+    private MonsterData wolfData = new MonsterData();
+    private MonsterData trollData = new MonsterData();
+
     private void Awake()
     {
         #region ½Ì±ÛÅæ
@@ -32,32 +36,23 @@ public class MonsterManager : MonoBehaviour
         }
         #endregion
         monsterDic.Clear();
-    }
-    private void Start()
-    {
-        GoblinData();
-        WolfData();
-        TrollData();
+        InitMonsterData();
     }
 
-    private void GoblinData()
+    private void InitMonsterData()
     {
-        MonsterData goblinData = new MonsterData();
-
+        // Goblin data
         goblinData.SetHP(100);
         goblinData.SetDEF(20);
         goblinData.SetATK(20);
-        goblinData.SetSPEED(15);
+        goblinData.SetSPEED(10);
         goblinData.SetSTUN(false);
         goblinData.SetBURN(false);
         goblinData.SetPROVOKE(false);
 
         monsterDic.Add(MonsterType.Goblin, goblinData);
-    }
-    private void WolfData()
-    {
-        MonsterData wolfData = new MonsterData();
 
+        // Wolf data
         wolfData.SetHP(100);
         wolfData.SetDEF(10);
         wolfData.SetATK(10);
@@ -67,11 +62,8 @@ public class MonsterManager : MonoBehaviour
         wolfData.SetPROVOKE(false);
 
         monsterDic.Add(MonsterType.Wolf, wolfData);
-    }
-    private void TrollData()
-    {
-        MonsterData trollData = new MonsterData();
 
+        // Troll data
         trollData.SetHP(150);
         trollData.SetDEF(50);
         trollData.SetATK(30);
@@ -82,7 +74,16 @@ public class MonsterManager : MonoBehaviour
 
         monsterDic.Add(MonsterType.Troll, trollData);
     }
-
-
-
+    public MonsterData GetMonsterData(MonsterType type)
+    {
+        if (monsterDic.ContainsKey(type))
+        {
+            return monsterDic[type];
+        }
+        else
+        {
+            Debug.LogError("MonsterDataÀÇ Monster: " + type + "À» Ã£Áö ¸øÇÔ.");
+            return null;
+        }
+    }
 }
