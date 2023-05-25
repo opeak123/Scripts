@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MonsterType // 몬스터 타입
+// 몬스터 타입
+public enum MonsterType 
 {
     Goblin,
     Wolf,
@@ -12,9 +13,10 @@ public class MonsterManager : MonoBehaviour
 {
     //인스턴스화
     public static MonsterManager Instance { get; set; }
-    //Dictionary
+    //몬스터의 종류를 딕셔너리에 넣음
     private Dictionary<MonsterType, MonsterData> monsterDic = new Dictionary<MonsterType, MonsterData>();
     
+    //몬스터 종류 생성
     private MonsterData goblinData = new MonsterData();
     private MonsterData wolfData = new MonsterData();
     private MonsterData trollData = new MonsterData();
@@ -35,7 +37,9 @@ public class MonsterManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         #endregion
+        //딕셔너리 초기화
         monsterDic.Clear();
+        //몬스터 속성 
         InitMonsterData();
     }
 
@@ -43,6 +47,7 @@ public class MonsterManager : MonoBehaviour
     {
         // Goblin data
         goblinData.SetHP(100);
+        goblinData.SetMaxHP(100);
         goblinData.SetDEF(20);
         goblinData.SetATK(20);
         goblinData.SetSPEED(10);
@@ -53,7 +58,8 @@ public class MonsterManager : MonoBehaviour
         monsterDic.Add(MonsterType.Goblin, goblinData);
 
         // Wolf data
-        wolfData.SetHP(100);
+        wolfData.SetHP(80);
+        wolfData.SetMaxHP(80);
         wolfData.SetDEF(10);
         wolfData.SetATK(10);
         wolfData.SetSPEED(20);
@@ -65,6 +71,7 @@ public class MonsterManager : MonoBehaviour
 
         // Troll data
         trollData.SetHP(150);
+        trollData.SetMaxHP(150);
         trollData.SetDEF(50);
         trollData.SetATK(30);
         trollData.SetSPEED(10);
@@ -74,6 +81,7 @@ public class MonsterManager : MonoBehaviour
 
         monsterDic.Add(MonsterType.Troll, trollData);
     }
+    //딕셔너리 키 값 확인
     public MonsterData GetMonsterData(MonsterType type)
     {
         if (monsterDic.ContainsKey(type))
