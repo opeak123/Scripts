@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-// ¸ó½ºÅÍ Å¸ÀÔ
+// ëª¬ìŠ¤í„° íƒ€ì…
 public enum MonsterType 
 {
     Goblin,
@@ -10,19 +10,19 @@ public enum MonsterType
 
 public class MonsterManager : MonoBehaviour
 {
-    //ÀÎ½ºÅÏ½ºÈ­
+    //ì¸ìŠ¤í„´ìŠ¤í™”
     private static MonsterManager Instance { get; set; }
-    //¸ó½ºÅÍÀÇ Á¾·ù¸¦ µñ¼Å³Ê¸®¿¡ ³ÖÀ½
+    //ëª¬ìŠ¤í„°ì˜ ì¢…ë¥˜ë¥¼ ë”•ì…”ë„ˆë¦¬ì— ë„£ìŒ
     private Dictionary<MonsterType, MonsterData> monsterDic = new Dictionary<MonsterType, MonsterData>();
     
-    //¸ó½ºÅÍ Á¾·ù »ı¼º
-    public MonsterData goblinData = new MonsterData();
+    //ëª¬ìŠ¤í„° ì¢…ë¥˜ ìƒì„±
+    private MonsterData goblinData = new MonsterData();
     private MonsterData wolfData = new MonsterData();
     private MonsterData trollData = new MonsterData();
 
     private void Awake()
     {
-        #region ½Ì±ÛÅæ
+        #region ì‹±ê¸€í†¤
         if (Instance == null)
         {
             Instance = this;
@@ -36,9 +36,9 @@ public class MonsterManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         #endregion
-        //µñ¼Å³Ê¸® ÃÊ±âÈ­
+        //ë”•ì…”ë„ˆë¦¬ ì´ˆê¸°í™”
         monsterDic.Clear();
-        //¸ó½ºÅÍ ¼Ó¼º 
+        //ëª¬ìŠ¤í„° ì†ì„± 
         InitMonsterData();
     }
 
@@ -80,7 +80,7 @@ public class MonsterManager : MonoBehaviour
 
         monsterDic.Add(MonsterType.Troll, trollData);
     }
-    //µñ¼Å³Ê¸® Å° °ª È®ÀÎ
+    //ë”•ì…”ë„ˆë¦¬ í‚¤ ê°’ í™•ì¸
     public MonsterData GetMonsterData(MonsterType type)
     {
         if (monsterDic.ContainsKey(type))
@@ -89,7 +89,7 @@ public class MonsterManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("MonsterDataÀÇ Monster: " + type + "À» Ã£Áö ¸øÇÔ.");
+            Debug.LogError("MonsterDataì˜ Monster: " + type + "ì„ ì°¾ì§€ ëª»í•¨.");
             return null;
         }
     }
