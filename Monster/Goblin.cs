@@ -28,7 +28,7 @@ public class Goblin : MonsterMovement
     private float dirY;
 
     //몬스터 공격쿨타임
-    private float attackCoolDownTimer;
+    private float goblinAttackTimer;
 
     //몬스터 체력
     private Slider slider;
@@ -100,7 +100,7 @@ public class Goblin : MonsterMovement
         //플레이어와 몬스터의 포지션의 Y값 계산
         dirY = Mathf.Abs(transform.position.y - playerTransform.position.y);
         //몬스터 공격 쿨타임
-        attackCoolDownTimer += Time.deltaTime;
+        goblinAttackTimer += Time.deltaTime;
         //Bool 변수 : 추적/공격/이동중인지
         isTrace = dirXZ <= 20f && dirY <= 2f && !isAttack;
         isAttack = dirXZ < 3f;
@@ -129,10 +129,10 @@ public class Goblin : MonsterMovement
                 if (isAttack)
                 {
                     navMesh.destination = this.transform.position;
-                    if (attackCoolDownTimer >= 3 && !isTrace && !isMoving)
+                    if (goblinAttackTimer >= 3 && !isTrace && !isMoving)
                     {
                         monsterAni.Attack();
-                        attackCoolDownTimer = 0f;
+                        goblinAttackTimer = 0f;
                     }
                     else
                     {

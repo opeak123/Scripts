@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(MonsterAnimation))]
@@ -30,6 +31,10 @@ public class Wolf : MonsterMovement
     private float combatState = 0f;
     //몬스터 공격 쿨타임
     private float wolfAttackTimer = 0f;
+    //몬스터 공격 범위
+    private float attackRange = 4f;
+    //몬스터 추적 범위
+    private float traceRange = 20f;
     //다른 몬스터를 감지할 반지름
     private float detectionRadius = 10f;
     //반지름 내 Wolf 몬스터 수 
@@ -94,12 +99,13 @@ public class Wolf : MonsterMovement
     private void WolfState()
     {
         float dir = Vector3.Distance(this.transform.position, playerTransform.position);
-        isTrace = dir <= 20f && !isAttack;
-        isAttack = dir < 4f;
+        isTrace = dir <= traceRange && !isAttack;
+        isAttack = dir < attackRange;
         isMoving = navMesh.velocity.magnitude > 0.1f;
         wolfAttackTimer += Time.deltaTime;
 
-        
+        if (isDamaged)
+            return;
 
         //애니메이션 재생 및 상황에 따른 몬스터 속도제어
         if (isTrace)
@@ -166,7 +172,7 @@ public class Wolf : MonsterMovement
     //플레이어에게 피격시 반대방향으로 도망
     private void WolfFarFromPlayer()
     {
-        if (isDamaged && this.monsterNum > 1)
+        if (isDamaged)
         {
             Vector3 farFromPlayer = transform.position + (transform.position - playerTransform.position).normalized;
             navMesh.SetDestination(farFromPlayer);
@@ -184,6 +190,7 @@ public class Wolf : MonsterMovement
     {
         navMesh.height = 0;
         navMesh.radius = 0;
+        navMesh.acceleration = 0;
         monsterAni.Dead();
         Destroy(this.gameObject, 4f);
     }
@@ -194,12 +201,20 @@ public class Wolf : MonsterMovement
         Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRadius);
 
         monsterNum = 1;
-        foreach(Collider col in colliders)
+        foreach (Collider col in colliders)
         {
-            if(col.gameObject.CompareTag("WOLF") && col.name != this.name)
+            if (col.gameObject.CompareTag("WOLF") && col.name != this.name)
             {
                 monsterNum++;
             }
+        }
+        if (monsterNum != 1)
+        {
+            isDamaged = false;
+        }
+        else if (monsterNum == 1)
+        {
+            WolfFarFromPlayer();
         }
     }
 
